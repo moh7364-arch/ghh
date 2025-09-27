@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جعفر السيد بوكر - Jaafar Al-Sayed Poker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gold-frame"></div>
+    <div id="bubble-container"></div>
+    <!-- صفحة تسجيل الدخول -->
+    <section id="auth-page">
+        <div class="auth-container">
+            <div class="logo-box">
+                <div class="logo-chip"></div>
+                <span class="logo-title">Jaafar Al-Sayed Poker</span>
+                <span class="logo-crown">👑</span>
+                <div class="logo-chip"></div>
+            </div>
+            <form class="auth-form" id="register-form" autocomplete="off">
+                <div class="form-group">
+                    <input type="text" id="firstName" required>
+                    <label for="firstName">الاسم الأول</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="lastName" required>
+                    <label for="lastName">الاسم الأخير</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" required>
+                    <label for="email">البريد الإلكتروني</label>
+                </div>
+                <div class="form-group">
+                    <select id="countryCode" required></select>
+                    <label for="countryCode">الدولة</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" required>
+                    <label for="phone">رقم الهاتف</label>
+                </div>
+                <div class="id-type-options">
+                    <input type="radio" name="idType" id="idCard" value="idCard" checked hidden>
+                    <label for="idCard">بطاقة شخصية</label>
+                    <input type="radio" name="idType" id="passport" value="passport" hidden>
+                    <label for="passport">جواز سفر</label>
+                </div>
+                <div class="form-group">
+                    <input type="file" id="idDocument" accept="image/*" required>
+                    <label for="idDocument">إرفاق الهوية</label>
+                </div>
+                <button type="submit" class="gold-button">متابعة التسجيل</button>
+            </form>
+        </div>
+    </section>
+    <!-- صفحة التحقق الحيوي (الكاميرا) -->
+    <section id="biometric-page" style="display:none;">
+        <div class="auth-container">
+            <div style="text-align:center;">
+                <video id="camera-feed" autoplay style="width:260px;height:260px;border-radius:20px;border:3px solid #ffd700;box-shadow:0 0 20px #ffd70055;"></video>
+                <div class="face-guide" style="margin:15px 0 12px;background:rgba(255,215,0,0.18);border-radius:10px;padding:7px;color:#ffd700;font-weight:bold;">يرجى النظر إلى الكاميرا</div>
+                <button id="capture-btn" class="gold-button">أخذ صورة سيلفي للتحقق</button>
+            </div>
+        </div>
+    </section>
+    <!-- صفحة التحقق البريد الإلكتروني -->
+    <section id="verify-email-page" style="display:none;">
+        <div class="auth-container">
+            <h3 class="logo-title">التحقق من البريد الإلكتروني</h3>
+            <p>تم إرسال رمز التحقق إلى بريدك الإلكتروني</p>
+            <input type="text" id="verification-code" maxlength="6" placeholder="أدخل الرمز" style="padding:10px;margin:10px;font-size:18px;text-align:center;">
+            <button class="gold-button" id="verify-btn">تحقق</button>
+            <button class="gold-button" id="resend-btn">إعادة الإرسال</button>
+        </div>
+    </section>
+    <!-- الصفحة الرئيسية -->
+    <section id="main-page" style="display:none;">
+        <div class="sidebar">
+            <div class="user-profile">
+                <img id="user-avatar" src="avatar.png" alt="user" />
+                <span id="user-name">لاعب</span>
+            </div>
+            <nav class="main-nav">
+                <button class="nav-item active" data-nav="main">🏠 الرئيسية</button>
+                <button class="nav-item" data-nav="wallet">💰 المحفظة</button>
+                <button class="nav-item" data-nav="settings">⚙️ الإعدادات</button>
+                <button class="nav-item" data-nav="levels">🎯 المستويات</button>
+            </nav>
+        </div>
+        <div class="main-content">
+            <!-- الصفحة الرئيسية -->
+            <div id="main-content" class="content-section active">
+                <div class="poker-table">
+                    <div class="table-surface">
+                        <div class="table-logo">
+                            <div class="animated-crown">👑</div>
+                            <h2>Jaafar Al-Sayed Poker</h2>
+                        </div>
+                        <div class="player-seats" id="player-seats">
+                            <div class="seat" data-seat="1"></div>
+                            <div class="seat" data-seat="2"></div>
+                            <div class="seat" data-seat="3"></div>
+                            <div class="seat" data-seat="4"></div>
+                            <div class="seat" data-seat="5"></div>
+                            <div class="seat" data-seat="6"></div>
+                        </div>
+                        <div class="game-controls">
+                            <button class="control-btn" id="deal-btn">🃏 بدء الجولة</button>
+                            <button class="control-btn" id="bet-btn">💰 رهان</button>
+                            <button class="control-btn" id="fold-btn">❌ سحب</button>
+                            <button class="control-btn" id="restart-btn">🔄 إعادة</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- المحفظة -->
+            <div id="wallet-content" class="content-section">
+                <h2>💰 المحفظة</h2>
+                <div class="balance-section">
+                    <h3>الرصيد الحالي: <span id="current-balance">1,000</span> 💎</h3>
+                </div>
+                <div class="packages-section">
+                    <h3>حزم الجواهر:</h3>
+                    <div class="coins-package" data-amount="100">
+                        <h4>100 💎</h4>
+                        <p>10 $</p>
+                    </div>
+                    <div class="coins-package" data-amount="500">
+                        <h4>500 💎</h4>
+                        <p>45 $</p>
+                    </div>
+                    <div class="coins-package" data-amount="1000">
+                        <h4>1000 💎</h4>
+                        <p>80 $</p>
+                    </div>
+                </div>
+            </div>
+            <!-- الإعدادات -->
+            <div id="settings-content" class="content-section">
+                <h2>⚙️ الإعدادات</h2>
+                <div class="settings-options">
+                    <div class="setting-item">
+                        <label>الاسم: </label>
+                        <input type="text" id="display-name" value="">
+                    </div>
+                    <div class="setting-item">
+                        <label>رقم الجوال: </label>
+                        <input type="tel" id="mobile-number" value="">
+                    </div>
+                    <div class="setting-item">
+                        <label>اللغة: </label>
+                        <select id="language-select">
+                            <option value="ar">العربية</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <button class="gold-button" id="save-settings">حفظ التغييرات</button>
+                </div>
+            </div>
+            <!-- المستويات -->
+            <div id="levels-content" class="content-section">
+                <h2>🎯 مستويات اللعبة</h2>
+                <div class="level-options">
+                    <div class="level-item" data-level="beginner">
+                        <h3>👶 المبتدئ</h3>
+                        <p>الرهان: 10-100 💎</p>
+                    </div>
+                    <div class="level-item" data-level="intermediate">
+                        <h3>🚀 المتوسط</h3>
+                        <p>الرهان: 100-500 💎</p>
+                    </div>
+                    <div class="level-item" data-level="expert">
+                        <h3>🎯 المحترف</h3>
+                        <p>الرهان: 500-2000 💎</p>
+                    </div>
+                    <div class="level-item" data-level="king">
+                        <h3>👑 مستوى الملوك</h3>
+                        <p>الرهان: 2000+ 💎</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-panel">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message">مرحبا بك في اللعبة!</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="اكتب رسالة...">
+                <button class="gold-button" id="chat-send">إرسال</button>
+            </div>
+        </div>
+    </section>
+    <!-- إشعارات -->
+    <div id="notif"></div>
+    <!-- مؤثرات صوتية -->
+    <audio id="audio-click" src="sounds/click.mp3"></audio>
+    <audio id="audio-success" src="sounds/success.mp3"></audio>
+    <audio id="audio-fail" src="sounds/fail.mp3"></audio>
+    <audio id="audio-coins" src="sounds/coins.mp3"></audio>
+    <audio id="audio-chat" src="sounds/chat.mp3"></audio>
+    <audio id="audio-deal" src="sounds/deal.mp3"></audio>
+    <audio id="audio-bet" src="sounds/bet.mp3"></audio>
+    <audio id="audio-fold" src="sounds/fold.mp3"></audio>
+    <audio id="audio-restart" src="sounds/restart.mp3"></audio>
+    <!-- ملفات JS -->
+    <script src="main.js"></script>
+    <script src="poker-logic.js"></script>
+    <script src="chat.js"></script>
+    <script src="audio.js"></script>
+</body>
+</html>
